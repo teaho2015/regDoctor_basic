@@ -7,8 +7,8 @@ A private small project for my mom to register with doctor automatically(registe
 * I need a repo to do Continuous integration.
 
 ##License
-
-No License.
+ 
+ Everything you could do with this repo.
 
 ##Notice
 
