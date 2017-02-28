@@ -5,11 +5,6 @@ package com.tea.regDoctor.utils;
 
 import java.util.UUID;
 
-/**
- * UUID生成器
- * @author yangxu
- *
- */
 public class UUIDGenerator {
     /**
      * 生成32位UUID，不含“-”符

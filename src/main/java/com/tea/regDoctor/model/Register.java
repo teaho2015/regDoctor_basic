@@ -7,27 +7,7 @@ package com.tea.regDoctor.model;
 import java.sql.Timestamp;
 
 public class Register {
-    /*
-     * {"total":1,
-        "rows":[{"frownm":1, //该查询number
-                "ysgh":"FP037", //医生挂号
-                "ysxm":"张卫华",
-                "xb":"2", //性别 女
-                "yydm":"4406000003", //医院//√
-                "yymc":"佛山市第二人民医院",
-                "ksdm":"0000046",  //√
-                "ksmc":"中医科(门)",
-                "zc":"主任医师",
-                "tc":"善治内、妇、儿科杂病及各种疑难病，对肝胆疾病、胆肾结石、老年虚症的诊疗颇有心得。对各种恶性肿瘤的中医治疗，恶性肿瘤术后防止复发，放化疗期间配合中药减毒增效及中晚期恶性肿瘤提高生存质量，延长生存期等有独到的见解。",
-                "yyrq":"2016-09-30",
-                "sfkyy":0,  //资源行数
-                "zkmc":"中医科(门)",
-                "id":23679,
-                "wsjksdm":"50",
-                "wsjzkdm":"50.13",
-                "zkdm":"0000046"}]
-        }
-     */
+
     private String id;
     private String doctorId;
     private String doctorName;
