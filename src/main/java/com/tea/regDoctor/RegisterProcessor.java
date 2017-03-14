@@ -72,7 +72,7 @@ public class RegisterProcessor implements Runnable {
                 e.printStackTrace();
                 logger.info("Network error, while getting register resources!", e);
             }
-            logger.info((new Date()).toString() + " ===== " + list);
+            logger.info(" ===== " + list);
         }
         Iterator registerResourceIteratorter = list.iterator();
         Set<String> simpleMatchSet = new HashSet<>();
@@ -98,7 +98,7 @@ public class RegisterProcessor implements Runnable {
                         synchronized (status) {
                             if (!status.get() && HttpUtil.registerDoctor(HttpUtil.login().getCookiesMap(), rr.getResourseId())) {
                                 status.set(true);
-                                logger.info((new Date()).toString() + "===== register success!!!");
+                                logger.info("===== register success!!!");
                                 break;
                             }
                         }
@@ -106,12 +106,12 @@ public class RegisterProcessor implements Runnable {
 
                 }
             } catch (NumberFormatException e) {
-                logger.info((new Date()).toString() + "register resource number parse error!!", e);
+                logger.info("register resource number parse error!!", e);
 
             }
 
         }
-        logger.info((new Date()).toString() + "===== end of the program!!");
+        logger.info("===== end of the program!!");
 
     }
 }
