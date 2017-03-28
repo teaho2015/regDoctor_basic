@@ -22,11 +22,10 @@ public class RegisterProcessor implements Runnable {
 //    private static Condition condition = finallock.newCondition();
 
     // a temp simple syn implement to avoid registering twice
-    private static volatile AtomicBoolean status = new AtomicBoolean(false);
+    private static final AtomicBoolean status = new AtomicBoolean(false);
     private Logger logger = LoggerFactory.getLogger(getClass());
 
     private LocalDate register_date;
-    //    private String register_time_range;
     private Set<String> timeRangeSet;
 
 
