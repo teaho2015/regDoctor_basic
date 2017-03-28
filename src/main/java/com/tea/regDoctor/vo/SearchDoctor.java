@@ -3,6 +3,7 @@
  */
 package com.tea.regDoctor.vo;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class SearchDoctor {
@@ -16,7 +17,7 @@ public class SearchDoctor {
     private String ksmc;
     private String zc;
     private String tc;
-    private Date yyrq;
+    private LocalDate yyrq;
     private int sfkyy;//资源行数
     private String zkmc;
     private int id;
@@ -104,11 +105,11 @@ public class SearchDoctor {
         this.tc = tc;
     }
 
-    public Date getYyrq() {
+    public LocalDate getYyrq() {
         return yyrq;
     }
 
-    public void setYyrq(Date yyrq) {
+    public void setYyrq(LocalDate yyrq) {
         this.yyrq = yyrq;
     }
 

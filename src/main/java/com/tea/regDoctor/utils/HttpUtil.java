@@ -30,6 +30,7 @@ import java.lang.reflect.Type;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -235,7 +236,7 @@ public class HttpUtil {
         Map<String, Object> map = new HashMap<>();
         NameValuePair[] qparams = new BasicNameValuePair[5];
         qparams[0] = new BasicNameValuePair("id", String.valueOf(searchDoctorsVO.getId()));
-        qparams[1] = new BasicNameValuePair("rq", (new SimpleDateFormat("yyyy-MM-dd")).format(searchDoctorsVO.getYyrq()));
+        qparams[1] = new BasicNameValuePair("rq", DateTimeFormatter.ofPattern("yyyy-MM-dd").format(searchDoctorsVO.getYyrq()));
         qparams[2] = new BasicNameValuePair("ysgh", searchDoctorsVO.getYsgh());
         qparams[3] = new BasicNameValuePair("yydm", searchDoctorsVO.getYydm());
         qparams[4] = new BasicNameValuePair("zkdm", searchDoctorsVO.getZkdm());

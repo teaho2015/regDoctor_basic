@@ -7,10 +7,12 @@ package com.tea.regDoctor;
 import com.tea.regDoctor.utils.HttpUtil;
 import com.tea.regDoctor.vo.RegisterResource;
 import com.tea.regDoctor.vo.SearchDoctor;
+import com.tea.regDoctor.vo.builder.SearchDoctorBuilder;
 import org.apache.http.HttpException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -23,7 +25,7 @@ public class RegisterProcessor implements Runnable {
     private static volatile AtomicBoolean status = new AtomicBoolean(false);
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private Date register_date;
+    private LocalDate register_date;
     //    private String register_time_range;
     private Set<String> timeRangeSet;
 
@@ -31,7 +33,7 @@ public class RegisterProcessor implements Runnable {
     private RegisterProcessor() {
     }
 
-    public RegisterProcessor(Date REGISTER_DATE,  Set<String> timeRangeSet) {
+    public RegisterProcessor(LocalDate REGISTER_DATE,  Set<String> timeRangeSet) {
         this.register_date = Objects.requireNonNull(REGISTER_DATE);
 //        this.register_time_range = Objects.requireNonNull(REGISTER_TIME_RANGE);
         this.timeRangeSet = Objects.requireNonNull(timeRangeSet);
@@ -41,24 +43,24 @@ public class RegisterProcessor implements Runnable {
     //temp works TODO remove this
     @Override
     public void run() {
-        SearchDoctor sd = new SearchDoctor();
-        sd.setFrownm(1);
-        sd.setId(23679);
-        sd.setKsmc("中医科(门)");
-        sd.setSfkyy(14);
-        sd.setTc("");
-        sd.setWsjksdm("50");
-
-        sd.setWsjzkdm("50.13");
-        sd.setXb("2");
-        sd.setYsgh("FP037");
-        sd.setYsxm("张卫华");
-        sd.setYydm("4406000003");
-        sd.setYymc("佛山市第二人民医院");
-        sd.setYyrq(register_date);
-        sd.setZc("主任医师");
-        sd.setZkdm("0000046");
-        sd.setZkmc("中医科(门)");
+        SearchDoctor sd = SearchDoctorBuilder.newBuilder()
+                .frownm(1)
+                .id(23679)
+                .ksmc("中医科(门)")
+                .sfkyy(14)
+                .tc("")
+                .wsjksdm("50")
+                .wsjzkdm("50.13")
+                .xb("2")
+                .ysgh("FP037")
+                .ysxm("张卫华")
+                .yydm("4406000003")
+                .yymc("佛山市第二人民医院")
+                .yyrq(register_date)
+                .zc("主任医师")
+                .zkdm("0000046")
+                .zkmc("中医科(门)")
+                .build();
         List<RegisterResource> list = null;
         while (list == null || list.size() <= 0) {
             try {

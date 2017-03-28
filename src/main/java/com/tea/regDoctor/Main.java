@@ -5,6 +5,9 @@ package com.tea.regDoctor;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -15,10 +18,11 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Date REGISTER_DATE;
+        LocalDate REGISTER_DATE;
         try {
-            REGISTER_DATE = (new SimpleDateFormat("yyyy-MM-dd")).parse(Objects.requireNonNull(args[0], "REGISTER_DATE can't be null!!"));
-        } catch (ParseException e) {
+            REGISTER_DATE = LocalDate.parse(Objects.requireNonNull(args[0], "REGISTER_DATE can't be null!!"));
+        } catch (DateTimeParseException e) {
+            //TODO refactor to logger handling
             e.printStackTrace();
             throw new Error("GG, REGISTER_TIME_RANGE parse wrong, program met a big crash...");
         }
