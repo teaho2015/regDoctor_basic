@@ -1,10 +1,9 @@
 /**
- * Created by 庭亮 on 2016/10/28.
+ * Created by teaho2015@gmail.com on 2016/11/28.
  */
 package com.tea.regDoctor;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -14,9 +13,15 @@ import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * keey for cmd usage
+ */
+@Deprecated
 public class Main {
 
     public static void main(String[] args) {
+
+        //TODO init UI and create controller file. controller file due to create processor
 
         LocalDate REGISTER_DATE;
         try {
