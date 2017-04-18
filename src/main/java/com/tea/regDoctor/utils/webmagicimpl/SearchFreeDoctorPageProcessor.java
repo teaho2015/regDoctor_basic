@@ -1,6 +1,3 @@
-/**
- * Created by teaho2015@gmail.com on 2016/8/12.
- */
 package com.tea.regDoctor.utils.webmagicimpl;
 
 import org.apache.http.NameValuePair;
@@ -18,7 +15,7 @@ import java.util.Map;
 
 /**
  *  @author teaho2015@gmail.com
- *  @since 20160906
+ *  @since 20161006
  *  <b>DEMO FOR<b/> http://live.fshealth.gov.cn/smjkfw/wsyygh/index.html
  *
  */
