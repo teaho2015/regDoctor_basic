@@ -113,9 +113,26 @@ public class SearchDoctorBuilder implements Builder<SearchDoctor> {
     }
 
     public SearchDoctorBuilder defaultValue() {
-
-
         return this;
+    }
+
+    public SearchDoctorBuilder defaultValue(LocalDate register_date) {
+        return this.frownm(1)
+            .id(23679)
+            .ksmc("中医科(门)")
+            .sfkyy(14)
+            .tc("")
+            .wsjksdm("50")
+            .wsjzkdm("50.13")
+            .xb("2")
+            .ysgh("FP037")
+            .ysxm("张卫华")
+            .yydm("4406000003")
+            .yymc("佛山市第二人民医院")
+            .yyrq(register_date)
+            .zc("主任医师")
+            .zkdm("0000046")
+            .zkmc("中医科(门)");
     }
 
     @Override

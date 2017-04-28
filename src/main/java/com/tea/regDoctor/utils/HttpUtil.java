@@ -38,7 +38,7 @@ import java.util.regex.Pattern;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 
-public class HttpUtil {
+public final class HttpUtil {
     private final static String IDENTIFICATION_CODE_URL = "http://live.fshealth.gov.cn/smjkfw/wsyygh/executeValidate.action?a=0";
     public final static File tempPath = new File("D:\\test_tesseract-OCR\\.TEMP");
     private static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
@@ -273,7 +273,6 @@ public class HttpUtil {
     public static HttpVerificationCodeEntity login() {
         Request request = new Request();
         request.setMethod(HttpConstant.Method.POST);
-//        request.setUrl("http://music.163.com/weapi/song/enhance/player/url");
         request.setUrl("http://live.fshealth.gov.cn/smjkfw/wsyygh/login.action");
         Map<String, Object> map = new HashMap<>();
         NameValuePair[] qparams = new BasicNameValuePair[4];

@@ -22,18 +22,17 @@ public class RegDoctorResoursesPageProcessor implements PageProcessor {
     private Site site = Site.me().setRetryTimes(3).setSleepTime(500)//.setDomain("live.fshealth.gov.cn")
             .setCycleRetryTimes(3)//TODO test it
             .addHeader("Accept", "application/json, text/javascript, */*; q=0.01")
+            //set header reserved code
 //            .addHeader("Accept-Encoding", "gzip, deflate")
 //            .addHeader("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
-
 //            .addCookie("live.fshealth.gov.cn", "JSESSIONID", "2F41A518024C62B9EEC9C828E89BFD62")
 //            .addCookie("Hm_lvt_0c4fe25684558b9335a91cadbc063882", "1473095401")
 //            .addCookie("Hm_lpvt_0c4fe25684558b9335a91cadbc063882", "1473095401")
-
 //            .addHeader("Upgrade-Insecure-Requests", "1")
+//            .addHeader("Cookie", "JSESSIONID=2F41A518024C62B9EEC9C828E89BFD62")
             .addHeader("Host", "live.fshealth.gov.cn")
             .addHeader("Origin", "http://live.fshealth.gov.cn")
             .addHeader("Referer", "http://live.fshealth.gov.cn/smjkfw/wsyygh/pages/yygh.html")
-//            .addHeader("Cookie", "JSESSIONID=2F41A518024C62B9EEC9C828E89BFD62")
             .addHeader("X-Requested-With", "XMLHttpRequest")
             .addHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36")
 //            .setCharset("UTF-8")
@@ -44,13 +43,8 @@ public class RegDoctorResoursesPageProcessor implements PageProcessor {
     }
 
     public void process(Page page) {
-//        System.out.println(page.getRawText());
-//        logger.debug(page.);
-//        page.putField("result" ,page.getJson());
         List<String> titles = page.getHtml().css("tr.title th", "text").all();
         logger.info("title in Resources page =" + titles);
-//        List<String> htmlTable = page.getHtml().css("tbody#t1>tr").all();
-//        System.out.println(htmlTable);
 //        tbody#t1>tr:eq(0)>td:eq(0)
         if (titles == null || titles.size() != 8) {
 //            throw new Exception()

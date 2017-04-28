@@ -32,8 +32,8 @@
 
 package com.tea.regDoctor;
  
+import com.tea.regDoctor.processor.RegisterProcessor;
 import javafx.event.*;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.Button;
@@ -43,23 +43,22 @@ import javafx.scene.text.Text;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 
 public class MainUIController {
-    @FXML private DatePicker registerDatePicker;
+    @FXML protected DatePicker registerDatePicker;
 
-    @FXML private TextField timeRangeField1;
-    @FXML private TextField timeRangeField2;
-    @FXML private TextField timeRangeField3;
+    @FXML protected TextField timeRangeField1;
+    @FXML protected TextField timeRangeField2;
+    @FXML protected TextField timeRangeField3;
 
-    @FXML private Button submitButton;
-    @FXML private Text actiontarget;
+    @FXML protected Button submitButton;
+    @FXML protected Text actiontarget;
 
+    protected RegisterProcessor rp;
 
     @FXML protected void handleSubmitButtonAction(ActionEvent event) {
         System.out.println("press button");
@@ -84,13 +83,8 @@ public class MainUIController {
 
         Set<String> timeRangeSet = timeFieldList.stream().filter(textField -> !textField.getText().trim().isEmpty()).map(TextField::getText).collect(Collectors.toSet());
 
-        //TODO refactor to javafx menu settings
-        ExecutorService es = Executors.newFixedThreadPool(20);
-        for (int i = 0; i < 20; i++) {
-            es.execute(new RegisterProcessor(registerDate, timeRangeSet));
-        }
-
-
+        RegisterProcessor rp = RegisterProcessor.create(registerDate, timeRangeSet).scheduleNum(20);
+        rp.runAsync();
         submitButton.setDisable(false);
     }
 
