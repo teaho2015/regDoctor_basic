@@ -51,6 +51,8 @@
       GridPane.columnIndex="1" GridPane.rowIndex="5">
       <Button fx:id="submitButton" text="开始挂号"
        onAction="#handleSubmitButtonAction"/>
+      <Button fx:id="cancelButton" text="停止程序"
+              onAction="#handlecancelButtonAction"/>
   </HBox>
   
   <Text fx:id="actiontarget" 

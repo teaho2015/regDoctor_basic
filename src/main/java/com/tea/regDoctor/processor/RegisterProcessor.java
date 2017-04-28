@@ -40,7 +40,7 @@ public class RegisterProcessor implements Runnable {
 
     protected LocalDate register_date;
 
-    protected Set<String> timeRangeSet;
+    protected Set<String> timeRangeSet = new HashSet<>();
 
     //TODO refactor to javafx menu settings
     protected int scheduleNum = 20;
@@ -59,7 +59,7 @@ public class RegisterProcessor implements Runnable {
     public RegisterProcessor(LocalDate REGISTER_DATE,  Set<String> timeRangeSet) {
         this.register_date = Objects.requireNonNull(REGISTER_DATE);
 //        this.register_time_range = Objects.requireNonNull(REGISTER_TIME_RANGE);
-        this.timeRangeSet = Objects.requireNonNull(timeRangeSet);
+        this.timeRangeSet.addAll(Objects.requireNonNull(timeRangeSet));
     }
 
     public static RegisterProcessor create(LocalDate REGISTER_DATE, Set<String> timeRangeSet) {
@@ -119,6 +119,10 @@ public class RegisterProcessor implements Runnable {
                 logger.info("Network error, while getting register resources!", e);
             }
             logger.info(" ===== " + list);
+            //exit strategy
+            if (executorService.isShutdown()) {
+                return;
+            }
         }
         Iterator registerResourceIterator = list.iterator();
         Set<String> simpleMatchSet = new HashSet<>();
@@ -163,8 +167,7 @@ public class RegisterProcessor implements Runnable {
     public void run() {
         checkRunningStat();
         initComponent();
-        final LocalDate registerDateFinal = register_date;
-        SearchDoctor sd = SearchDoctorBuilder.newBuilder().defaultValue(registerDateFinal).build();
+        SearchDoctor sd = SearchDoctorBuilder.newBuilder().defaultValue(register_date).build();
         logger.info("Rigister Processor is starting!");
 
         AtomicInteger threadCount = new AtomicInteger();
@@ -193,7 +196,13 @@ public class RegisterProcessor implements Runnable {
      */
     public void close() {
         executorService.shutdown();
+        //do some resource release
     }
+
+    /*public void closeHardly() {
+        executorService.shutdownNow();
+        //do some resource release
+    }*/
 
     public Status getStatus() {
         return Status.fromValue(stat.get());

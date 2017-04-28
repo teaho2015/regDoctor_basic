@@ -31,18 +31,21 @@
  */
 
 package com.tea.regDoctor;
- 
+
 import com.tea.regDoctor.processor.RegisterProcessor;
-import javafx.event.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -56,12 +59,17 @@ public class MainUIController {
     @FXML protected TextField timeRangeField3;
 
     @FXML protected Button submitButton;
+    @FXML protected Button cancelButton;
     @FXML protected Text actiontarget;
 
     protected RegisterProcessor rp;
 
-    @FXML protected void handleSubmitButtonAction(ActionEvent event) {
-        System.out.println("press button");
+    private Logger logger = LoggerFactory.getLogger(getClass());
+
+    @FXML
+    protected void handleSubmitButtonAction(ActionEvent event) {
+
+        logger.info("pressed submit button");
 
         submitButton.setDisable(true);
         List<TextField> timeFieldList = new ArrayList<>();
@@ -71,7 +79,7 @@ public class MainUIController {
         timeFieldList.add(timeRangeField3);
 
         Pattern p = Pattern.compile("^\\d{2}:\\d{2}~\\d{2}:\\d{2}$");
-        if(!timeFieldList.stream().allMatch(textField -> {
+        if (!timeFieldList.stream().allMatch(textField -> {
             String s = textField.getText().trim();
             Matcher m = p.matcher(s);
             return (s.isEmpty() || m.matches());
@@ -83,13 +91,29 @@ public class MainUIController {
 
         Set<String> timeRangeSet = timeFieldList.stream().filter(textField -> !textField.getText().trim().isEmpty()).map(TextField::getText).collect(Collectors.toSet());
 
-        RegisterProcessor rp = RegisterProcessor.create(registerDate, timeRangeSet).scheduleNum(20);
+        rp = RegisterProcessor.create(registerDate, timeRangeSet).scheduleNum(20);
         rp.runAsync();
-        submitButton.setDisable(false);
     }
 
-    /*@FXML public void handleFieldExited(Event event) {
-        System.out.println("haha");
-    }*/
+    @FXML
+    protected void handlecancelButtonAction(ActionEvent actionEvent) {
+        cancelButton.setDisable(true);
+        logger.info("cancel press!!");
+        rp.stop();
+        rp.close();
+        pause(5);
+        submitButton.setDisable(false);
+        cancelButton.setDisable(false);
+    }
+
+    protected void pause(int i) {
+        try {
+            Thread.currentThread().sleep(i * 1000);
+        } catch (InterruptedException e) {
+            logger.info("thread sleep() error!!", e);
+        }
+    }
+
+
 
 }
