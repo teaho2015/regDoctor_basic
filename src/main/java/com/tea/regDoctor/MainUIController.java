@@ -99,11 +99,16 @@ public class MainUIController {
     protected void handlecancelButtonAction(ActionEvent actionEvent) {
         cancelButton.setDisable(true);
         logger.info("cancel press!!");
-        rp.stop();
-        rp.close();
-        pause(5);
-        submitButton.setDisable(false);
-        cancelButton.setDisable(false);
+        try {
+            rp.stop();
+            rp.close();
+        } catch (NullPointerException e) {
+            logger.info("program hasn't run!", e);
+        } finally {
+            pause(5);
+            submitButton.setDisable(false);
+            cancelButton.setDisable(false);
+        }
     }
 
     protected void pause(int i) {

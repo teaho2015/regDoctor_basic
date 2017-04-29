@@ -7,6 +7,8 @@
 
 以后可能会放在BitBucket上。
 
+![screen shot](image/screenshot.png)
+
 ## License
  
 You could do anything with this repo.
