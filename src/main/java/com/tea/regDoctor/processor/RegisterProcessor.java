@@ -32,7 +32,7 @@ public class RegisterProcessor implements Runnable {
     private Condition condition = finallock.newCondition();
 
     // a temp simple syn implement to avoid registering twice
-    protected final AtomicBoolean status = new AtomicBoolean(false);
+    protected final AtomicBoolean loginStatus = new AtomicBoolean(false);
 
     protected AtomicInteger stat = new AtomicInteger(STAT_INIT);
 
@@ -144,10 +144,10 @@ public class RegisterProcessor implements Runnable {
                 if (Integer.valueOf(rr.getRegisterableNum()) > 0
                         && simpleMatchSet.contains(period.trim())
                         ) {
-                    if (!status.get()) {
-                        synchronized (status) {
-                            if (!status.get() && HttpUtil.registerDoctor(HttpUtil.login().getCookiesMap(), rr.getResourseId())) {
-                                status.set(true);
+                    if (!loginStatus.get()) {
+                        synchronized (loginStatus) {
+                            if (!loginStatus.get() && HttpUtil.registerDoctor(HttpUtil.login().getCookiesMap(), rr.getResourseId())) {
+                                loginStatus.set(true);
                                 logger.info("===== register success!!!");
                                 break;
                             }
