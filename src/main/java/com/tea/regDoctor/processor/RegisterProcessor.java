@@ -53,7 +53,7 @@ public class RegisterProcessor implements Runnable {
 
     protected ExecutorService executorService;
 
-    protected boolean destroyWhenExit = true;
+    protected boolean destroyWhenExit = false;
 
 
     public RegisterProcessor(LocalDate REGISTER_DATE,  Set<String> timeRangeSet) {
@@ -107,7 +107,8 @@ public class RegisterProcessor implements Runnable {
 
     public void process(SearchDoctor sd) {
         List<RegisterResource> list = null;
-        while (list == null || list.size() <= 0) {
+        final int MAX_PROCESS = Integer.MAX_VALUE/10000;
+        for (int i=0; i<MAX_PROCESS && (list == null || list.size() <= 0); i++){
             try {
                 Thread.currentThread().sleep(1000);
             } catch (InterruptedException e) {
@@ -191,6 +192,12 @@ public class RegisterProcessor implements Runnable {
 
     }
 
+    public void runAsync() {
+        Thread thread = new Thread(this);
+        thread.setDaemon(false);
+        thread.start();
+    }
+
     /**
      * do some resource release
      */
@@ -239,12 +246,6 @@ public class RegisterProcessor implements Runnable {
         } else {
             logger.info("stop fail!");
         }
-    }
-
-    public void runAsync() {
-        Thread thread = new Thread(this);
-        thread.setDaemon(false);
-        thread.start();
     }
 
 }
