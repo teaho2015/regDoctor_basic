@@ -106,7 +106,7 @@ public class RegisterProcessor implements Runnable {
     }
 
 
-    public void process(SearchDoctor sd) {
+    protected void process(SearchDoctor sd) {
         List<RegisterResource> list = null;
         final int MAX_PROCESS = Integer.MAX_VALUE/10000;
         for (int i=0; i<MAX_PROCESS && (list == null || list.size() <= 0); i++){
