@@ -174,16 +174,21 @@ public class RegisterProcessor implements Runnable {
 
         AtomicInteger threadCount = new AtomicInteger();
         while (!Thread.currentThread().isInterrupted()
-                && stat.get() == STAT_RUNNING
-                && threadCount.get() <= scheduleNum) {
-            executorService.execute(()-> {
-                try {
-                    process(sd);
-                } catch (Exception e) {
-                    logger.error("Error occur!!", e);
-                }
-            });
-            threadCount.incrementAndGet();
+                && stat.get() == STAT_RUNNING) {
+            if (threadCount.get() <= scheduleNum) {
+                executorService.execute(() -> {
+                    try {
+                        process(sd);
+                    } catch (Exception e) {
+                        logger.error("Error occur!!", e);
+                    }
+                });
+                threadCount.incrementAndGet();
+            }
+
+            if (executorService.isTerminated()) {
+                break;
+            }
         }
 
         stat.set(STAT_STOPPED);
