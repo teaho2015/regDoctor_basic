@@ -4,6 +4,7 @@
  */
 package com.tea.regDoctor;
 
+import com.tea.regDoctor.config.Config;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,6 +15,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Locale;
+import java.util.Properties;
 
 public class MainUI extends Application {
 
@@ -23,6 +25,8 @@ public class MainUI extends Application {
 
     public static void main(String[] args) {
         Locale.setDefault(Locale.SIMPLIFIED_CHINESE);
+//        init config file
+        Config.getInstance();
         launch(args);
     }
 

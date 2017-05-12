@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.google.common.base.Optional;
+import com.tea.regDoctor.config.Config;
 import com.tea.regDoctor.model.HttpVerificationCodeEntity;
 import com.tea.regDoctor.utils.webmagicimpl.*;
 import com.tea.regDoctor.vo.RegisterResource;
@@ -276,8 +277,8 @@ public final class HttpUtil {
         request.setUrl("http://live.fshealth.gov.cn/smjkfw/wsyygh/login.action");
         Map<String, Object> map = new HashMap<>();
         NameValuePair[] qparams = new BasicNameValuePair[4];
-        qparams[0] = new BasicNameValuePair("userId", "4406000001000271401");
-        qparams[1] = new BasicNameValuePair("password", "69d5c50df527a4b8cb1cd00c19dec17e");
+        qparams[0] = new BasicNameValuePair("userId", Config.getInstance().getProperty(Config.Key.USERID));
+        qparams[1] = new BasicNameValuePair("password", Config.getInstance().getProperty(Config.Key.USERPASSWORD));
         Optional<HttpVerificationCodeEntity> o = null;
         HttpVerificationCodeEntity httpVerificationCodeEntity = null;
         Pattern p = Pattern.compile("[0-9]{4}");
