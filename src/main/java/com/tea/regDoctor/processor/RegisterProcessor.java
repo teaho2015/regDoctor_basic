@@ -4,6 +4,7 @@
  */
 package com.tea.regDoctor.processor;
 
+import com.google.common.collect.ImmutableSet;
 import com.tea.regDoctor.utils.HttpUtil;
 import com.tea.regDoctor.vo.RegisterResource;
 import com.tea.regDoctor.vo.SearchDoctor;
@@ -126,17 +127,17 @@ public class RegisterProcessor implements Runnable {
             }
         }
         Iterator registerResourceIterator = list.iterator();
-        Set<String> simpleMatchSet = new HashSet<>();
-//        simpleMatchMap.put("08:30~09:00", "");
+        ImmutableSet<String> simpleMatchSet = null;
         if (timeRangeSet.isEmpty()) {
-            simpleMatchSet.add("09:00~09:30");
-            simpleMatchSet.add("09:30~10:00");
-            simpleMatchSet.add("10:00~10:30");
-            simpleMatchSet.add("10:30~11:00");
-            simpleMatchSet.add("11:00~11:30");
-            simpleMatchSet.add("11:30~12:00");
+            ImmutableSet.builder()
+                    .add("09:00~09:30")
+                    .add("09:30~10:00")
+                    .add("10:00~10:30")
+                    .add("10:30~11:00")
+                    .add("11:00~11:30")
+                    .add("11:30~12:00");
         } else {
-            simpleMatchSet.addAll(timeRangeSet);
+            simpleMatchSet = ImmutableSet.copyOf(timeRangeSet);
         }
         while (registerResourceIterator.hasNext()) {
             RegisterResource rr = (RegisterResource) registerResourceIterator.next();
