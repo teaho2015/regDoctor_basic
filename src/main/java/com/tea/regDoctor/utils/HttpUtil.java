@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.google.common.base.Optional;
+import com.tea.regDoctor.config.Config;
 import com.tea.regDoctor.model.HttpVerificationCodeEntity;
 import com.tea.regDoctor.utils.webmagicimpl.*;
 import com.tea.regDoctor.vo.RegisterResource;
@@ -205,7 +206,7 @@ public final class HttpUtil {
         map.put("nameValuePair", qparams);
         request.setExtras(map);
 
-        CollectorPipeline collectorPipeline = new ResultItemsCollectorPipeline();
+        CollectorPipeline<ResultItems> collectorPipeline = new ResultItemsCollectorPipeline();
         Spider spider = Spider.create(new SearchFreeDoctorPageProcessor())
                 .addRequest(request)
                 .setDownloader(new MyHttpClientDownloader())
@@ -243,7 +244,7 @@ public final class HttpUtil {
         map.put("nameValuePair", qparams);
         request.setExtras(map);
 
-        CollectorPipeline collectorPipeline = new ResultItemsCollectorPipeline();
+        CollectorPipeline<ResultItems> collectorPipeline = new ResultItemsCollectorPipeline();
         Spider spider = Spider.create(new RegDoctorResoursesPageProcessor())
                 .addRequest(request)
                 .setDownloader(new MyHttpClientDownloader())
@@ -276,8 +277,8 @@ public final class HttpUtil {
         request.setUrl("http://live.fshealth.gov.cn/smjkfw/wsyygh/login.action");
         Map<String, Object> map = new HashMap<>();
         NameValuePair[] qparams = new BasicNameValuePair[4];
-        qparams[0] = new BasicNameValuePair("userId", "4406000001000271401");
-        qparams[1] = new BasicNameValuePair("password", "69d5c50df527a4b8cb1cd00c19dec17e");
+        qparams[0] = new BasicNameValuePair("userId", Config.getInstance().getProperty(Config.Key.USERID));
+        qparams[1] = new BasicNameValuePair("password", Config.getInstance().getProperty(Config.Key.USERPASSWORD));
         Optional<HttpVerificationCodeEntity> o = null;
         HttpVerificationCodeEntity httpVerificationCodeEntity = null;
         Pattern p = Pattern.compile("[0-9]{4}");
@@ -294,7 +295,7 @@ public final class HttpUtil {
             qparams[3] = new BasicNameValuePair("dlfs", "1");
             map.put("nameValuePair", qparams);
             request.setExtras(map);
-            CollectorPipeline cp = new ResultItemsCollectorPipeline();
+            CollectorPipeline<ResultItems> cp = new ResultItemsCollectorPipeline();
             Spider spider = Spider.create(new LoginPageProcessor(httpVerificationCodeEntity.getCookiesMap()))
                     .addRequest(request)
                     .setDownloader(new MyHttpClientDownloader())
@@ -317,7 +318,7 @@ public final class HttpUtil {
     /**
      * @param cookiesMap
      * @param resourseId match to <code>zybh</code> in {@link HttpUtil#searchRegisterList()} results
-     * @return
+     * @return boolean
      */
     public static boolean registerDoctor(Map<String, String> cookiesMap, String resourseId) {
         Request regRequest = new Request();
@@ -332,7 +333,7 @@ public final class HttpUtil {
         regQparams[3] = new BasicNameValuePair("xm", "");
         regMap.put("nameValuePair", regQparams);
         regRequest.setExtras(regMap);
-        CollectorPipeline cp = new ResultItemsCollectorPipeline();
+        CollectorPipeline<ResultItems> cp = new ResultItemsCollectorPipeline();
         Spider spider2 = Spider.create(new RegisterDoctorPageProcessor(cookiesMap))
                 .addRequest(regRequest)
                 .setDownloader(new MyHttpClientDownloader())

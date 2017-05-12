@@ -1,5 +1,7 @@
 package com.tea.regDoctor.utils;
 
+import com.tea.regDoctor.config.Config;
+
 import java.io.IOException;
 
 public class OCRUtil {
@@ -9,7 +11,7 @@ public class OCRUtil {
         Runtime r = Runtime.getRuntime();
 //        StringBuffer cmd = new StringBuffer();
 //        cmd.append("\"D:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe\" \"").append(imagePath).append("\" \"").append(outPath).append("\"");
-        Process p = r.exec(new String[]{"D:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe", imagePath, outPath});
+        Process p = r.exec(new String[]{Config.getInstance().getProperty(Config.Key.OCR), imagePath, outPath});
         try {
             p.waitFor();
         } catch (InterruptedException e) {
