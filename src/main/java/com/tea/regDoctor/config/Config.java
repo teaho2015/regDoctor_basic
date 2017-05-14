@@ -4,8 +4,6 @@
  */
 package com.tea.regDoctor.config;
 
-import com.google.common.base.Strings;
-import com.sun.istack.internal.Nullable;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +11,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Objects;
 import java.util.Properties;
 
 public class Config {

@@ -4,7 +4,6 @@
 package com.tea.regDoctor.vo;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 public class SearchDoctor {
     private int frownm;//该查询number

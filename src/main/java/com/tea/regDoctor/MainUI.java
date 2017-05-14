@@ -15,7 +15,6 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.Locale;
-import java.util.Properties;
 
 public class MainUI extends Application {
 
