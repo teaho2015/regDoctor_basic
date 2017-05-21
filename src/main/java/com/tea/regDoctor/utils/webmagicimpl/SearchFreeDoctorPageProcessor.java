@@ -51,38 +51,4 @@ public class SearchFreeDoctorPageProcessor implements PageProcessor {
         page.putField("result" ,page.getJson());
     }
 
-    public static void main(String[] args) {
-        Request request = new Request();
-        request.setMethod(HttpConstant.Method.POST);
-//        request.setUrl("http://music.163.com/weapi/song/enhance/player/url");
-        request.setUrl("http://live.fshealth.gov.cn/smjkfw/wsyygh/quypages/quyjsonpages.action");//?page_zjxm=%e5%bc%a0%e5%8d%ab%e5%8d%8e
-        Map<String, Object> map = new HashMap<>();
-        NameValuePair[] qparams = new BasicNameValuePair[12];
-        qparams[0] = new BasicNameValuePair("qid", "JKFW_YYGH");
-        qparams[1] = new BasicNameValuePair("rows", "10");
-        qparams[2] = new BasicNameValuePair("page", "1");
-        qparams[3] = new BasicNameValuePair("page_sfkyy", "");
-        qparams[4] = new BasicNameValuePair("page_ssqx", "440600");
-        qparams[5] = new BasicNameValuePair("page_hosid", "4406000003");
-        //TODO
-//        try {
-//            String utf8 = new String(new String("张卫华").getBytes( "UTF-8"));
-//            String unicode = new String(utf8.getBytes(),"UTF-8");
-//            String gbk = new String(unicode.getBytes("GBK"));
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-        qparams[6] = new BasicNameValuePair("page_zjxm","张卫华");
-        qparams[7] = new BasicNameValuePair("page_yyrq", "");
-        qparams[8] = new BasicNameValuePair("page_zjxb", "");
-        qparams[9] = new BasicNameValuePair("page_ksdm", "");
-        qparams[10] = new BasicNameValuePair("page_wsjksdm", "");
-        qparams[11] = new BasicNameValuePair("page_wsjzkdm", "");
-        map.put("nameValuePair", qparams);
-        request.setExtras(map);
-        Spider spider = Spider.create(new SearchFreeDoctorPageProcessor())
-                .addRequest(request)
-                .setDownloader(new MyHttpClientDownloader());
-        spider.run();
-    }
 }

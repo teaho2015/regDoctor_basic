@@ -30,6 +30,7 @@ public class Config {
                 defaultProp.put(Key.OCR.getValue(), "D:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe");
                 defaultProp.put(Key.USERID.getValue(), "4406000001000271401");
                 defaultProp.put(Key.USERPASSWORD.getValue(), "69d5c50df527a4b8cb1cd00c19dec17e");
+                defaultProp.put(Key.TEMPDIR.getValue(), Paths.get(System.getProperty("user.dir"), ".TEMP").toString());
                 defaultProp.store(Files.newOutputStream(configFilePath), "Init by program!! please do not delete any row, it will cause unexpected error.");
             }
             prop.load(Files.newInputStream(configFilePath));
@@ -63,7 +64,8 @@ public class Config {
     public enum Key {
         OCR("regDoctor.ocr.path"),
         USERID("regDoctor.login.id"),
-        USERPASSWORD("regDoctor.login.password");
+        USERPASSWORD("regDoctor.login.password"),
+        TEMPDIR("regDoctor.path.temp");
 
         private String value;
 

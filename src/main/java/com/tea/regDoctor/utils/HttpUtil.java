@@ -40,8 +40,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 
 public final class HttpUtil {
-    private final static String IDENTIFICATION_CODE_URL = "http://live.fshealth.gov.cn/smjkfw/wsyygh/executeValidate.action?a=0";
-    public final static File tempPath = new File("D:\\test_tesseract-OCR\\.TEMP");
+    private final static String IDENTIFICATION_CODE_URL = Constants.HttpURL.IDENTIFICATION_CODE_URL;
+    public final static File tempPath = new File(Config.getInstance().getProperty(Config.Key.TEMPDIR));
     private static Logger logger = LoggerFactory.getLogger(HttpUtil.class);
 
     static {

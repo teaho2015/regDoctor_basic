@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.Iterator;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -177,6 +178,7 @@ public class RegisterProcessor implements Runnable {
         logger.info("Rigister Processor is starting!");
 
         AtomicInteger threadCount = new AtomicInteger();
+//        CountDownLatch countDownLatch = new CountDownLatch(scheduleNum);
         while (!Thread.currentThread().isInterrupted()
                 && stat.get() == STAT_RUNNING) {
             if (threadCount.get() <= scheduleNum) {
@@ -185,7 +187,9 @@ public class RegisterProcessor implements Runnable {
                         process(sd);
                     } catch (Exception e) {
                         logger.error("Error occur!!", e);
-                    }
+                    } /*finally {
+                        countDownLatch.countDown();
+                    }*/
                 });
                 threadCount.incrementAndGet();
             }
@@ -199,6 +203,12 @@ public class RegisterProcessor implements Runnable {
         if (destroyWhenExit) {
             close();
         }
+
+//        try {
+//            countDownLatch.await();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
     }
 
