@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Optional;
 import java.util.Properties;
 
 public class Config {
@@ -78,17 +79,16 @@ public class Config {
         }
 
         /**
-         * @return Key (might be a null value)
+         * @return Key (might be a null value Optional)
          */
-        public static Key fromValue(String value) {
+        public static Optional<Key> fromValue(String value) {
+            Key k = null;
             for (Key key : Key.values()) {
                 if (key.getValue().equals(value)) {
-                    return key;
+                    k = key;
                 }
             }
-//            throw new NullPointerException();
-            //give user a chance
-            return null;
+            return Optional.ofNullable(k);
         }
 
 
