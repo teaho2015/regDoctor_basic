@@ -111,10 +111,10 @@ public class RegisterProcessor implements Runnable {
     }
 
 
-    protected void process(SearchDoctor sd) {
+    protected void process(final SearchDoctor sd, final ImmutableSet<String> simpleMatchSet) {
         List<RegisterResource> list = null;
-        final int MAX_PROCESS = Integer.MAX_VALUE/10000;
-        for (int i=0; i<MAX_PROCESS && (list == null || list.size() <= 0); i++){
+        final int MAX_PROCESS = Integer.MAX_VALUE / 10000;
+        for (int i = 0; i < MAX_PROCESS && (list == null || list.size() <= 0); i++) {
             try {
                 Thread.currentThread().sleep(1000);
             } catch (InterruptedException e) {
@@ -132,18 +132,7 @@ public class RegisterProcessor implements Runnable {
             }
         }
         Iterator registerResourceIterator = list.iterator();
-        ImmutableSet<String> simpleMatchSet = null;
-        if (timeRangeSet.isEmpty()) {
-            ImmutableSet.builder()
-                    .add("09:00~09:30")
-                    .add("09:30~10:00")
-                    .add("10:00~10:30")
-                    .add("10:30~11:00")
-                    .add("11:00~11:30")
-                    .add("11:30~12:00");
-        } else {
-            simpleMatchSet = ImmutableSet.copyOf(timeRangeSet);
-        }
+
         while (registerResourceIterator.hasNext()) {
             RegisterResource rr = (RegisterResource) registerResourceIterator.next();
             String period = rr.getRegDayTime();
@@ -175,6 +164,18 @@ public class RegisterProcessor implements Runnable {
         checkRunningStat();
         initComponent();
         SearchDoctor sd = SearchDoctorBuilder.newBuilder().defaultValue(register_date).build();
+        ImmutableSet<String> simpleMatchSet = null;
+        if (timeRangeSet.isEmpty()) {
+            ImmutableSet.builder()
+                    .add("09:00~09:30")
+                    .add("09:30~10:00")
+                    .add("10:00~10:30")
+                    .add("10:30~11:00")
+                    .add("11:00~11:30")
+                    .add("11:30~12:00");
+        } else {
+            simpleMatchSet = ImmutableSet.copyOf(timeRangeSet);
+        }
         logger.info("Rigister Processor is starting!");
 
         AtomicInteger threadCount = new AtomicInteger();
@@ -182,9 +183,11 @@ public class RegisterProcessor implements Runnable {
         while (!Thread.currentThread().isInterrupted()
                 && stat.get() == STAT_RUNNING) {
             if (threadCount.get() <= scheduleNum) {
+                final SearchDoctor sdFinal = sd;
+                final ImmutableSet<String> finalSimpleMatchSet = simpleMatchSet;
                 executorService.execute(() -> {
                     try {
-                        process(sd);
+                        process(sdFinal, finalSimpleMatchSet);
                     } catch (Exception e) {
                         logger.error("Error occur!!", e);
                     } /*finally {
