@@ -166,13 +166,14 @@ public class RegisterProcessor implements Runnable {
         SearchDoctor sd = SearchDoctorBuilder.newBuilder().defaultValue(register_date).build();
         ImmutableSet<String> simpleMatchSet = null;
         if (timeRangeSet.isEmpty()) {
-            ImmutableSet.builder()
+            simpleMatchSet = ImmutableSet.<String>builder()
                     .add("09:00~09:30")
                     .add("09:30~10:00")
                     .add("10:00~10:30")
                     .add("10:30~11:00")
                     .add("11:00~11:30")
-                    .add("11:30~12:00");
+                    .add("11:30~12:00")
+                    .build();
         } else {
             simpleMatchSet = ImmutableSet.copyOf(timeRangeSet);
         }
