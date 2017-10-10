@@ -5,30 +5,28 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>net.tea.regDoctor</groupId>
-    <artifactId>regDoctor-root</artifactId>
+    <artifactId>regDoctor-core</artifactId>
     <version>1.1-alpha</version>
-    <description>Basic code for Register Doctor!</description>
-    <packaging>pom</packaging>
-    <modules>
-        <module>regDoctor-core</module>
-        <module>regDoctor-mail</module>
-    </modules>
-
+    <packaging>jar</packaging>
+    <parent>
+        <groupId>net.tea.regDoctor</groupId>
+        <artifactId>regDoctor-root</artifactId>
+        <version>1.1-alpha</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <log4j.version>1.2.14</log4j.version>
-        <junit.version>4.11</junit.version>
-        <webmagic.version>0.5.3</webmagic.version>
     </properties>
 
-    <!--<build>
-        <finalName>${project.artifactId}</finalName>
+    <build>
+        <finalName>${project.artifactId}-${version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.0</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -63,14 +61,15 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <!--<outputDirectory>${project.build.directory}</outputDirectory>-->
+                            <outputDirectory>${build.directory}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
 
-            &lt;!&ndash; Surefire plugin (runs tests, excludes deliberately failing tests &ndash;&gt;
-            &lt;!&ndash;<plugin>
+            <!-- Surefire plugin (runs tests, excludes deliberately failing tests -->
+            <!--<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.9</version>
@@ -85,9 +84,9 @@
                         <exclude>com/java7developer/chapter11/listing_11_18/TicketHibernateDaoTest.java</exclude>
                     </excludes>
                 </configuration>
-            </plugin>&ndash;&gt;
+            </plugin>-->
 
-            &lt;!&ndash; Properties plugin (read external properties) &ndash;&gt;
+            <!-- Properties plugin (read external properties) -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>properties-maven-plugin</artifactId>
@@ -109,38 +108,47 @@
             </plugin>
 
         </plugins>
-    </build>-->
-    <dependencyManagement>
-        <dependencies>
-            <!-- log -->
-            <dependency>
-                <groupId>log4j</groupId>
-                <artifactId>log4j</artifactId>
-                <version>${log4j.version}</version>
-            </dependency>
-            <!-- junit -->
-            <dependency>
-                <groupId>junit</groupId>
-                <artifactId>junit</artifactId>
-                <version>${junit.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <!-- webmagic -->
-            <dependency>
-                <groupId>us.codecraft</groupId>
-                <artifactId>webmagic-core</artifactId>
-                <version>${webmagic.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>us.codecraft</groupId>
-                <artifactId>webmagic-extension</artifactId>
-                <version>${webmagic.version}</version>
-            </dependency>
-            <!--/.webmagic -->
+    </build>
+
+    <dependencies>
+        <!-- <dependency>
+             <groupId>org.jfxtras</groupId>
+             <artifactId>jfxtras-controls</artifactId>
+             <version>8.0-r3</version>
+         </dependency>-->
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <!-- junit -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- webmagic -->
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-core</artifactId>
+            <version>${webmagic.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-extension</artifactId>
+            <version>${webmagic.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>regDoctor-mail</groupId>
+            <artifactId>regDoctor-mail</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
 
-        </dependencies>
-    </dependencyManagement>
+    </dependencies>
 
 
 </project>
