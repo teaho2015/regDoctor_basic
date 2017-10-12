@@ -23,7 +23,7 @@ public class EmailInfo {
     private String subject = "";
     private String text = "";
     private EmailTextType textType;
-    private String[] attachFileNames = new String[1];
+    private String[] attachFileNames = new String[0];
 
 
     public static class EmailInfoBuilder implements Builder<EmailInfo> {
