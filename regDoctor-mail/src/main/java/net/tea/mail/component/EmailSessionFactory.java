@@ -17,6 +17,8 @@ public class EmailSessionFactory {
         Session session = null;
         if (emailServerType.equals(EmailServerType.HOTMAIL)) {
             session = createHotmailSession(sessionAuthenticator);
+        } else {
+            throw new UnsupportedOperationException("unsupported email server type yet!!");
         }
 
         return session;
