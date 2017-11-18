@@ -19,31 +19,21 @@ public class Config {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private Path configFilePath = Paths.get(System.getProperty("user.dir"), "user.properties");
+    private static Path configFilePath = Paths.get(System.getProperty("user.dir"),"config", "user.properties");
 
     private Properties prop = new Properties();
 
     private Config() {
         try {
-            if (Files.notExists(configFilePath)) {
-                Files.createFile(configFilePath.normalize());
-                Properties defaultProp = new Properties();
-                defaultProp.put(Key.OCR.getValue(), "D:\\Program Files (x86)\\Tesseract-OCR\\tesseract.exe");
-                defaultProp.put(Key.USERID.getValue(), "4406000001000271401");
-                defaultProp.put(Key.USERPASSWORD.getValue(), "69d5c50df527a4b8cb1cd00c19dec17e");
-                defaultProp.put(Key.TEMPDIR.getValue(), Paths.get(System.getProperty("user.dir"), ".TEMP").toString());
-                defaultProp.store(Files.newOutputStream(configFilePath), "Init by program!! please do not delete any row, it will cause unexpected error.");
-            }
             prop.load(Files.newInputStream(configFilePath));
         } catch (IOException e) {
             logger.error("config error!Please Contact Administrator.", e);
-            throw new RuntimeException();
+            throw new RuntimeException("config error! config row not match! Please Contact Administrator.");
         }
         if (prop.size() != Key.values().length) {
             logger.error("config error! config row not match! Please Contact Administrator.");
-            throw new RuntimeException();
+            throw new RuntimeException("config error! config row not match! Please Contact Administrator.");
         }
-
     }
 
     public static Config getInstance() {
@@ -60,7 +50,6 @@ public class Config {
     public String getProperty(Key key) {
         return prop.getProperty(key.getValue());
     }
-
 
     public enum Key {
         OCR("regDoctor.ocr.path"),
