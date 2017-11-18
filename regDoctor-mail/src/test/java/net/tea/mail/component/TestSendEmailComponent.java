@@ -24,7 +24,7 @@ import static org.junit.Assert.*;
 
 public class TestSendEmailComponent {
 
-    private Path configFilePath = Paths.get(System.getProperty("user.dir"), "regDoctor-mail/test.properties");
+    private Path configFilePath = Paths.get(System.getProperty("user.dir"), "regDoctor-mail/src/test/resources/test.properties");
 
     private String fromAddr;
 
@@ -35,7 +35,7 @@ public class TestSendEmailComponent {
     private Properties prop = new Properties();
 
     @Before
-    public void beforeClass() {
+    public void before() {
         try {
             prop.load(Files.newInputStream(configFilePath));
         } catch (IOException e) {
@@ -52,7 +52,7 @@ public class TestSendEmailComponent {
 
         List<String> list = new ArrayList<>();
         for (String attachFilePath : attachFilePaths) {
-            list.add(Paths.get(System.getProperty("user.dir"), "regDoctor-mail/" + attachFilePath).toAbsolutePath().toString());
+            list.add(Paths.get(System.getProperty("user.dir"), "regDoctor-mail/src/test/resources/" + attachFilePath).toAbsolutePath().toString());
         }
 
         EmailInfo emailInfo = EmailInfo.newBuilder()
@@ -63,7 +63,7 @@ public class TestSendEmailComponent {
                 .subject("test")
                 .text("<p style=\"color:green;\">This is a test mail!</p>")
                 .textType(EmailTextType.HTML_UTF_8)
-                .toAddress(prop.getProperty("toAddr"))
+                .toAddresses(prop.getProperty("toAddr"))
                 .attachFileNames(list.toArray(new String[]{}))
                 .build();
 
@@ -82,7 +82,7 @@ public class TestSendEmailComponent {
                 .subject("test")
                 .text("This is a test mail!")
                 .textType(EmailTextType.PLAIN_UTF_8)
-                .toAddress(prop.getProperty("toAddr"))
+                .toAddresses(prop.getProperty("toAddr"))
                 .build();
 
         SendEmailComponent.send(emailInfo, EmailServerType.HOTMAIL);

@@ -18,6 +18,12 @@ public class SendEmailComponent {
 
     private static Logger logger = LogManager.getLogger(SendEmailComponent.class);
 
+    /**
+     *
+     * @param emailInfo
+     * @param emailServerType use for creating email session
+     * @throws MessagingException
+     */
     public static void send(EmailInfo emailInfo, EmailServerType emailServerType) throws MessagingException {
         SessionAuthenticator authenticator = new SessionAuthenticator(emailInfo.getUserName(), emailInfo.getPassword());
         Session session = EmailSessionFactory.create(emailServerType, authenticator);
@@ -34,8 +40,12 @@ public class SendEmailComponent {
         } catch (UnsupportedEncodingException e) {
             logger.warn("email render name encoding fails!!", e);
         }
-        InternetAddress[] sendTo = new InternetAddress[1];
-        sendTo[0] = new InternetAddress(emailInfo.getToAddress());
+
+        String[] toAddresses = emailInfo.getToAddresses();
+        InternetAddress[] sendTo = new InternetAddress[toAddresses.length];
+        for (int i = 0; i < toAddresses.length; i++) {
+            sendTo[i] = new InternetAddress(toAddresses[i]);
+        }
         message.setRecipients(Message.RecipientType.TO, sendTo);
 //        // cc
 //        InternetAddress[] sendCc = new InternetAddress[1];

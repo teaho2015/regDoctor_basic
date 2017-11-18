@@ -13,7 +13,7 @@ public class EmailInfo {
 //    private int mailServerPort = 25;
     //sender addr
     private String fromAddress = "";
-    private String toAddress = "";
+    private String[] toAddresses = new String[0];
     // two fields for auth
     private String userName = "";
     private String password = "";
@@ -34,8 +34,8 @@ public class EmailInfo {
             return this;
         }
 
-        public EmailInfoBuilder toAddress(String str) {
-            emailInfo.toAddress = str;
+        public EmailInfoBuilder toAddresses(String... str) {
+            emailInfo.toAddresses = str;
             return this;
         }
 
@@ -89,8 +89,8 @@ public class EmailInfo {
         return fromAddress;
     }
 
-    public String getToAddress() {
-        return toAddress;
+    public String[] getToAddresses() {
+        return toAddresses;
     }
 
     public String getUserName() {
