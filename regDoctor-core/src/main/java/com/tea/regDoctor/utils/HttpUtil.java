@@ -12,17 +12,21 @@ import com.tea.regDoctor.vo.SearchDoctor;
 import org.apache.http.HttpException;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EncodingUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import sun.net.www.protocol.http.HttpURLConnection;
 import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.ResultItems;
 import us.codecraft.webmagic.Spider;
+import us.codecraft.webmagic.downloader.HttpClientDownloader;
+import us.codecraft.webmagic.model.HttpRequestBody;
 import us.codecraft.webmagic.pipeline.CollectorPipeline;
 import us.codecraft.webmagic.pipeline.ResultItemsCollectorPipeline;
 import us.codecraft.webmagic.selector.Json;
 import us.codecraft.webmagic.utils.HttpConstant;
 
+import javax.mail.internet.ContentType;
 import java.io.*;
 import java.lang.reflect.Type;
 import java.net.ProtocolException;
@@ -178,13 +182,12 @@ public final class HttpUtil {
 //        request.setUrl("http://music.163.com/weapi/song/enhance/player/url");
         request.setUrl("http://live.fshealth.gov.cn/smjkfw/wsyygh/quypages/quyjsonpages.action");//?page_zjxm=%e5%bc%a0%e5%8d%ab%e5%8d%8e
         Map<String, Object> map = new HashMap<>();
-        NameValuePair[] qparams = new BasicNameValuePair[12];
-        qparams[0] = new BasicNameValuePair("qid", "JKFW_YYGH");
-        qparams[1] = new BasicNameValuePair("rows", "10");
-        qparams[2] = new BasicNameValuePair("page", "1");
-        qparams[3] = new BasicNameValuePair("page_sfkyy", "");
-        qparams[4] = new BasicNameValuePair("page_ssqx", "440600");
-        qparams[5] = new BasicNameValuePair("page_hosid", "4406000003");
+        map.put("qid", "JKFW_YYGH");
+        map.put("rows", "10");
+        map.put("page", "1");
+        map.put("page_sfkyy", "");
+        map.put("page_ssqx", "440600");
+        map.put("page_hosid", "4406000003");
         //TODO
 //        try {
 //            String utf8 = new String(new String("张卫华").getBytes( "UTF-8"));
@@ -193,19 +196,18 @@ public final class HttpUtil {
 //        } catch (UnsupportedEncodingException e) {
 //            e.printStackTrace();
 //        }
-        qparams[6] = new BasicNameValuePair("page_zjxm", "张卫华");
-        qparams[7] = new BasicNameValuePair("page_yyrq", "");
-        qparams[8] = new BasicNameValuePair("page_zjxb", "");
-        qparams[9] = new BasicNameValuePair("page_ksdm", "");
-        qparams[10] = new BasicNameValuePair("page_wsjksdm", "");
-        qparams[11] = new BasicNameValuePair("page_wsjzkdm", "");
-        map.put("nameValuePair", qparams);
+        map.put("page_zjxm", "张卫华");
+        map.put("page_yyrq", "");
+        map.put("page_zjxb", "");
+        map.put("page_ksdm", "");
+        map.put("page_wsjksdm", "");
+        map.put("page_wsjzkdm", "");
         request.setExtras(map);
-
+        request.setRequestBody(HttpRequestBody.form(map, "utf-8"));
         CollectorPipeline<ResultItems> collectorPipeline = new ResultItemsCollectorPipeline();
         Spider spider = Spider.create(new SearchFreeDoctorPageProcessor())
                 .addRequest(request)
-                .setDownloader(new MyHttpClientDownloader())
+                .setDownloader(new HttpClientDownloader())
                 .addPipeline(collectorPipeline)
                 .setSpawnUrl(false);
         spider.run();
@@ -231,19 +233,17 @@ public final class HttpUtil {
         request.setMethod(HttpConstant.Method.POST);
         request.setUrl("http://live.fshealth.gov.cn/smjkfw/wsyygh/doctorrespage.action");//Post TO GET DOCTOR PAGE
         Map<String, Object> map = new HashMap<>();
-        NameValuePair[] qparams = new BasicNameValuePair[5];
-        qparams[0] = new BasicNameValuePair("id", String.valueOf(searchDoctorsVO.getId()));
-        qparams[1] = new BasicNameValuePair("rq", DateTimeFormatter.ofPattern("yyyy-MM-dd").format(searchDoctorsVO.getYyrq()));
-        qparams[2] = new BasicNameValuePair("ysgh", searchDoctorsVO.getYsgh());
-        qparams[3] = new BasicNameValuePair("yydm", searchDoctorsVO.getYydm());
-        qparams[4] = new BasicNameValuePair("zkdm", searchDoctorsVO.getZkdm());
-        map.put("nameValuePair", qparams);
-        request.setExtras(map);
+        map.put("id", String.valueOf(searchDoctorsVO.getId()));
+        map.put("rq", DateTimeFormatter.ofPattern("yyyy-MM-dd").format(searchDoctorsVO.getYyrq()));
+        map.put("ysgh", searchDoctorsVO.getYsgh());
+        map.put("yydm", searchDoctorsVO.getYydm());
+        map.put("zkdm", searchDoctorsVO.getZkdm());
+        request.setRequestBody(HttpRequestBody.form(map, "utf-8"));
 
         CollectorPipeline<ResultItems> collectorPipeline = new ResultItemsCollectorPipeline();
         Spider spider = Spider.create(new RegDoctorResoursesPageProcessor())
                 .addRequest(request)
-                .setDownloader(new MyHttpClientDownloader())
+                .setDownloader(new HttpClientDownloader())
                 .addPipeline(collectorPipeline)
                 .setSpawnUrl(false);
         ResultItems rss = null;
@@ -272,9 +272,8 @@ public final class HttpUtil {
         request.setMethod(HttpConstant.Method.POST);
         request.setUrl("http://live.fshealth.gov.cn/smjkfw/wsyygh/login.action");
         Map<String, Object> map = new HashMap<>();
-        NameValuePair[] qparams = new BasicNameValuePair[4];
-        qparams[0] = new BasicNameValuePair("userId", Config.getInstance().getProperty(Config.Key.USERID));
-        qparams[1] = new BasicNameValuePair("password", Config.getInstance().getProperty(Config.Key.USERPASSWORD));
+        map.put("userId", Config.getInstance().getProperty(Config.Key.USERID));
+        map.put("password", Config.getInstance().getProperty(Config.Key.USERPASSWORD));
         Optional<HttpVerificationCodeEntity> o = null;
         HttpVerificationCodeEntity httpVerificationCodeEntity = null;
         Pattern p = Pattern.compile("[0-9]{4}");
@@ -287,14 +286,13 @@ public final class HttpUtil {
                 logger.info("===>" + httpVerificationCodeEntity.getResult());
                 m = p.matcher(httpVerificationCodeEntity.getResult());
             }
-            qparams[2] = new BasicNameValuePair("yzm", httpVerificationCodeEntity.getResult());
-            qparams[3] = new BasicNameValuePair("dlfs", "1");
-            map.put("nameValuePair", qparams);
-            request.setExtras(map);
+            map.put("yzm", httpVerificationCodeEntity.getResult());
+            map.put("dlfs", "1");
+            request.setRequestBody(HttpRequestBody.form(map, "utf-8"));
             CollectorPipeline<ResultItems> cp = new ResultItemsCollectorPipeline();
             Spider spider = Spider.create(new LoginPageProcessor(httpVerificationCodeEntity.getCookiesMap()))
                     .addRequest(request)
-                    .setDownloader(new MyHttpClientDownloader())
+                    .setDownloader(new HttpClientDownloader())
                     .addPipeline(cp);
             logger.info((new Date()).toString() + "=== running login!!");
             try {
@@ -322,17 +320,15 @@ public final class HttpUtil {
 //        request.setUrl("http://music.163.com/weapi/song/enhance/player/url");
         regRequest.setUrl("http://live.fshealth.gov.cn/smjkfw/wsyygh/gh/dowebbespeakno.action");
         Map<String, Object> regMap = new HashMap<>();
-        NameValuePair[] regQparams = new BasicNameValuePair[4];
-        regQparams[0] = new BasicNameValuePair("zybh", resourseId);
-        regQparams[1] = new BasicNameValuePair("klx", "1"); //no usage, just a fade value
-        regQparams[2] = new BasicNameValuePair("jkkh", "");
-        regQparams[3] = new BasicNameValuePair("xm", "");
-        regMap.put("nameValuePair", regQparams);
-        regRequest.setExtras(regMap);
+        regMap.put("zybh", resourseId);
+        regMap.put("klx", "1"); //no usage, just a fake value
+        regMap.put("jkkh", "");
+        regMap.put("xm", "");
+        regRequest.setRequestBody(HttpRequestBody.form(regMap, "utf-8"));
         CollectorPipeline<ResultItems> cp = new ResultItemsCollectorPipeline();
         Spider spider2 = Spider.create(new RegisterDoctorPageProcessor(cookiesMap))
                 .addRequest(regRequest)
-                .setDownloader(new MyHttpClientDownloader())
+                .setDownloader(new HttpClientDownloader())
                 .addPipeline(cp);
         spider2.run();
         ResultItems rss = null;

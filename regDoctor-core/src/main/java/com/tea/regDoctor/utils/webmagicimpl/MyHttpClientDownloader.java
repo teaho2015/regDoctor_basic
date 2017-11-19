@@ -16,10 +16,14 @@ import us.codecraft.webmagic.utils.HttpConstant;
 import java.io.UnsupportedEncodingException;
 import java.util.LinkedList;
 
+/**
+ * this subclass of HttpClientDownloader is useless for after 0.7.1
+ */
+@Deprecated
 public class MyHttpClientDownloader extends HttpClientDownloader {
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    @Override
+//    @Override
     protected RequestBuilder selectRequestMethod(Request request) {
         String method = request.getMethod();
         if (method == null || method.equalsIgnoreCase(HttpConstant.Method.GET)) {

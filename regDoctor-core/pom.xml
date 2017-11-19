@@ -21,7 +21,7 @@
     </properties>
 
     <build>
-        <finalName>${project.artifactId}-${version}</finalName>
+        <finalName>${project.artifactId}-${project.version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -62,8 +62,8 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <!--<outputDirectory>${project.build.directory}</outputDirectory>-->
-                            <outputDirectory>${build.directory}</outputDirectory>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <!--<outputDirectory>${build.directory}</outputDirectory>-->
                         </configuration>
                     </execution>
                 </executions>
@@ -140,6 +140,12 @@
             <groupId>us.codecraft</groupId>
             <artifactId>webmagic-extension</artifactId>
             <version>${webmagic.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>${guava.version}</version>
         </dependency>
 
         <dependency>

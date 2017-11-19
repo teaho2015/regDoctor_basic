@@ -3,21 +3,12 @@
  */
 package com.tea.regDoctor.utils.webmagicimpl;
 
-import com.google.common.base.Optional;
-import com.tea.regDoctor.model.HttpVerificationCodeEntity;
-import com.tea.regDoctor.utils.HttpUtil;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import us.codecraft.webmagic.Page;
-import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Site;
-import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
-import us.codecraft.webmagic.utils.HttpConstant;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -51,28 +42,6 @@ public class LoginPageProcessor implements PageProcessor {
         }
     }
 
-    //http://live.fshealth.gov.cn/smjkfw/wsyygh/login.action
-    public static void main(String[] args) {
-        Request request = new Request();
-        request.setMethod(HttpConstant.Method.POST);
-//        request.setUrl("http://music.163.com/weapi/song/enhance/player/url");
-        request.setUrl("http://live.fshealth.gov.cn/smjkfw/wsyygh/login.action");
-        Map<String, Object> map = new HashMap<>();
-        NameValuePair[] qparams = new BasicNameValuePair[4];
-        qparams[0] = new BasicNameValuePair("userId", "4406000001000271401");
-        qparams[1] = new BasicNameValuePair("password", "69d5c50df527a4b8cb1cd00c19dec17e");
-        Optional<HttpVerificationCodeEntity> o = HttpUtil.getVerificationCodeEntity();
-        HttpVerificationCodeEntity httpVerificationCodeEntity = o.get();
-        System.out.println("===>" + httpVerificationCodeEntity.getResult());
-        qparams[2] = new BasicNameValuePair("yzm", httpVerificationCodeEntity.getResult());
-        qparams[3] = new BasicNameValuePair("dlfs", "1");
-        map.put("nameValuePair", qparams);
-        request.setExtras(map);
-        Spider spider = Spider.create(new LoginPageProcessor(httpVerificationCodeEntity.getCookiesMap()))
-                .addRequest(request)
-                .setDownloader(new MyHttpClientDownloader());
-        spider.run();
-    }
 
     public void process(Page page) {
 //        if (page.getUrl().toString().startsWith("http://www\\.198620\\.com/qiufanhao/516")) {

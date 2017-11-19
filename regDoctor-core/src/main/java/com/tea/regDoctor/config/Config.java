@@ -19,7 +19,7 @@ public class Config {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
-    private static Path configFilePath = Paths.get(System.getProperty("user.dir"),"config", "user.properties");
+    private static Path configFilePath = Paths.get(System.getenv("REGDOCTOR_HOME"), "config", "user.properties");
 
     private Properties prop = new Properties();
 
