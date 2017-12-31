@@ -55,7 +55,8 @@ public class Config {
         OCR("regDoctor.ocr.path"),
         USERID("regDoctor.login.id"),
         USERPASSWORD("regDoctor.login.password"),
-        TEMPDIR("regDoctor.path.temp");
+        TEMPDIR("regDoctor.path.temp"),
+        LOGPATH("regDoctor.log.path");
 
         private String value;
 
